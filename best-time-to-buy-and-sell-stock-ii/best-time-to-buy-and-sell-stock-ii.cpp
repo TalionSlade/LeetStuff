@@ -1,26 +1,17 @@
 class Solution {
 public:
-    int maxProfit(vector<int>& prices) {
-        int profit = 0 , bought=prices[0];
-        bool isbought = false;
-        for(int i = 1 ; i<prices.size() ; i++ ){
-            //bull
-            if(!isbought && prices[i-1]<prices[i]){
-                bought = prices[i-1];
-                isbought = true;
-                cout<<"was here"<<endl;
-            }                    
-            //bear
-            else if(isbought && prices[i-1]>prices[i]){
-                isbought= false;
-                profit += prices[i-1] -bought; 
-                cout<<"was here 2"<<endl;
-            }
-            
+    
+        int maxProfit(vector<int>& prices) {
+        int ans=0,profit=0;
+        int valley,peak;
+        for(int i=0;i<prices.size();i++)
+        {
+            while(i<prices.size()-1 && prices[i]>=prices[i+1])i++;
+            valley = prices[i];
+            while(i<prices.size()-1 && prices[i]<=prices[i+1])i++;
+            peak = prices[i];
+            profit += peak-valley;
         }
-        if(isbought){
-            profit+= (prices[prices.size()-1] -bought);
+        return profit;
         }
-        return(profit);
-    }
 };
