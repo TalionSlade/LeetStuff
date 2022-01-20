@@ -1,19 +1,20 @@
 class Solution {
 public:
-    int f(int n , vector<int>& nums,vector<int>& dp){
-	if(n == 0)return nums[0];
-	if(n < 0) return 0; 
-	if(dp[n]!=-1)return dp[n];
-	int pick =  nums[n] + f(n-2,nums,dp);
-	int not_pick = 0 + f(n-1,nums,dp);
-	//cout<<"pick = "<<pick<<" non-pick ="<<not_pick<<endl;
-	return dp[n] = max(pick,not_pick);
+       int rob(vector<int>& nums){
+        int n =  nums.size() -1;
+        vector<int> dp(n+1,-1);
 
-}
+        dp[0] = nums[0];
+        for(int i = 1 ; i <= n;i++){
+            int pick = 0;
+            if(i-2>=0)
+                pick = nums[i] + dp[i-2];
+            else
+    		    pick = nums[i];
+            int no_pick = dp[i-1];
+            dp[i] = max(pick,no_pick);
+        }
 
-int rob(vector<int>& nums){
-	int n =  nums.size() -1;
-    vector<int> dp(n+1,-1);
-	return f(n,nums,dp);
-}
+        return dp[n];
+    }
 };
